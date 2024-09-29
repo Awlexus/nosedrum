@@ -230,6 +230,7 @@ defmodule Nosedrum.Storage.Dispatcher do
       name: name
     }
     |> put_type_specific_fields(command, options)
+    |> apply_payload_updates(command)
   end
 
   # This seems like a hacky way to unwrap the outer list...
@@ -290,6 +291,14 @@ defmodule Nosedrum.Storage.Dispatcher do
       map ->
         map
     end)
+  end
+
+  defp apply_payload_updates(payload, command) do
+    if function_exported?(command, :update_command_payload, 1) do
+      command.update_command_payload(payload)
+    else
+      payload
+    end
   end
 
   defp get_depth(path, depth) do
