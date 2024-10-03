@@ -297,5 +297,5 @@ defmodule Nosedrum.ApplicationCommand do
 
   @callback update_command_payload(map) :: map
 
-  @optional_callbacks [options: 0]
+  @optional_callbacks [options: 0, update_command_payload: 1]
 end
